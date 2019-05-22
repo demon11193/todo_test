@@ -1,0 +1,6 @@
+{
+  "require": {
+    "philo/laravel-blade": "3.*",
+    "illuminate/database": "^5.8"
+  }
+}
