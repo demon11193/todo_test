@@ -96,7 +96,7 @@ class TaskListController extends Controller
         $task->content = $request->post('content');
         $task->is_finished = !!$request->post('is_finished');
         $task->save();
-        $this->redirectTo('/tasks/' . $task->id);
+        $this->redirectTo('/');
     }
 
     /**
