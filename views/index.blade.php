@@ -13,9 +13,9 @@
                     </div>
                     <select name="sort" class="form-control">
                         <option value="id"{{$sort=='id'?' selected':''}}>№</option>
-                        <option value="user"{{$sort=='user'?' selected':''}}>Имя пользователя</option>
+                        <option value="username"{{$sort=='username'?' selected':''}}>Имя пользователя</option>
                         <option value="email"{{$sort=='email'?' selected':''}}>Email</option>
-                        <option value="status"{{$sort=='status'?' selected':''}}>Статус</option>
+                        <option value="is_finished"{{$sort=='is_finished'?' selected':''}}>Статус</option>
                     </select>
                     <div class="input-group-append">
                         <button class="btn btn-primary">ОК</button>
@@ -36,9 +36,8 @@
             <div class="row">
                 <div class="col-md-8">{{$task->content}}</div>
                 <div class="col-md-4 text-right">
-                    @if (!is_null($task->user))
-                        <i style="padding-left: 10px;">Автор: {{$task->user->name}}</i>
-                    @endif
+                    <i style="padding-left: 10px;">Пользователь: {{$task->username}}</i><br>
+                    <i style="padding-left: 10px;">Email: {{$task->email}}</i><br>
                     @if (\App\Core\Auth::hasAuth())
                         <a class="btn btn-link" href="/tasks/{{$task->id}}" role="button">Редактировать</a>
                     @endif

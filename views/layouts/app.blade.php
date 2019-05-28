@@ -33,7 +33,9 @@
     <div class="container">
 
         @if (\App\Core\Session::get('error'))
-            <div class="alert alert-danger" style="margin-top: 10px;" role="alert">{{\App\Core\Session::getAndRemove('error')}}</div>
+            <div class="alert alert-danger"
+                 style="margin-top: 10px;white-space: pre-line;"
+                 role="alert">{{\App\Core\Session::getAndRemove('error')}}</div>
         @endif
 
         @yield('content')

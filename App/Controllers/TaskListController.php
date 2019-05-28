@@ -28,27 +28,15 @@ class TaskListController extends Controller
         if ($page < 1) {
             $page = 1;
         }
-        $query = Task::leftJoin(
-            'users',
-            'tasks.user_id',
-            'users.id'
-        );
+        $query = Task::query();
         $limit = $query->count();
         $maxPage = ceil($limit / self::LIMIT_PER_PAGE);
 
-        switch ($sort) {
-            case 'user':
-                $query->orderBy('users.login');
-                break;
-            case 'email':
-                $query->orderBy('users.email');
-                break;
-            case 'status':
-                $query->orderBy('is_finished');
-                break;
-            default:
-                $query->orderBy('id');
-                break;
+        if (in_array($sort, ['username', 'email', 'is_finished', 'id'])) {
+            $query->orderBy($sort);
+        }
+        else {
+            $query->orderBy('id');
         }
 
         $tasks = $query
@@ -84,6 +72,16 @@ class TaskListController extends Controller
     }
 
     function edit(Request $request, $id = null) {
+        $this->validate($request->allPost(), [
+            'email' => 'required|email|max:255',
+            'username' => 'required|max:255',
+            'content' => 'required',
+        ], [
+            'email'     => 'Неверный формат поля email',
+            'username'  => 'Поле имя пользователя обязательно для заполнения',
+            'content'  => 'Поле текст задачи обязательно для заполнения',
+        ]);
+
         if (!is_null($id)) {
             $task = Task::find($id);
             if (!$task) {
@@ -92,10 +90,9 @@ class TaskListController extends Controller
         }
         else {
             $task = new Task();
-            if (Auth::hasAuth()) {
-                $task->user_id = Auth::getUserId();
-            }
         }
+        $task->email = $request->post('email');
+        $task->username = $request->post('username');
         $task->content = $request->post('content');
         $task->is_finished = !!$request->post('is_finished');
         $task->save();

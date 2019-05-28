@@ -9,8 +9,21 @@
 namespace App\Core;
 
 
+use mysql_xdevapi\Exception;
+use Rakit\Validation\Validator;
+
 class Controller
 {
+
+    function validate(array $inputs, array $rules, array $messages = null) {
+        $validator = new Validator();
+        $validation = $validator->validate($inputs, $rules, $messages);
+        if ($validation->fails()) {
+            $this->backWithError(
+                implode($validation->errors()->firstOfAll(), "\n")
+            );
+        }
+    }
 
     /**
      * Проверяет есть ли доступ у пользователя к методу

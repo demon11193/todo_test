@@ -12,6 +12,10 @@ namespace App\Core;
 class Request
 {
 
+    function allPost() {
+        return $_POST;
+    }
+
     function uri():string {
         return $_SERVER['REQUEST_URI'];
     }
