@@ -26,7 +26,7 @@ class ExceptionHandlerService
         }
         if ($exception instanceof AccessDeniedException) {
             self::showError("Нет доступа", self::CODE_PAGE_NOT_ACCESS);
-        }dd($exception);
+        }
         self::showError("Ошибка сервера");
     }
 
